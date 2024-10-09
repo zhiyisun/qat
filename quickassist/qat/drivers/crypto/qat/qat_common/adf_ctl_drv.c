@@ -548,10 +548,11 @@ static int adf_get_dev_node_id(struct pci_dev *pdev)
 		/* if there is only one physical processor don't need
 		 * to do any further calculations
 		 */
-		if (c->phys_proc_id == 0) {
+		int cpu_id = c->cpu_index;
+		if (topology_physical_package_id(cpu_id) == 0) {
 			node_id = 0;
 		} else {
-			bus_per_cpu = MAX_PCI_BUS / (c->phys_proc_id + 1);
+			bus_per_cpu = MAX_PCI_BUS / (topology_physical_package_id(cpu_id) + 1);
 			if (bus_per_cpu != 0)
 				node_id = pdev->bus->number / bus_per_cpu;
 		}
@@ -584,7 +585,7 @@ static int adf_ctl_ioctl_get_status(unsigned long arg)
 	dev_info.banks_per_accel = hw_data->num_banks
 					/ hw_data->num_logical_accel;
 	dev_info.rings_per_bank = hw_data->num_rings_per_bank;
-	strlcpy(dev_info.name, hw_data->dev_class->name, sizeof(dev_info.name));
+	strscpy(dev_info.name, hw_data->dev_class->name, sizeof(dev_info.name));
 	dev_info.instance_id = hw_data->instance_id;
 	dev_info.node_id     = adf_get_dev_node_id(accel_to_pci_dev(accel_dev));
 #ifdef QAT_UIO

@@ -142,7 +142,7 @@ int adf_init_adis(struct adf_accel_dev *accel_dev)
 	if (!accel_dev->cfg)
 		return 0;
 
-	strlcpy(key, ADF_NUM_ADI, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+	strscpy(key, ADF_NUM_ADI, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 	if (adf_cfg_get_param_value(accel_dev, ADF_SIOV_SEC, key, val) ||
 	    kstrtouint(val, 0, &adi_num) || 0 >= adi_num)
 		return 0;

@@ -97,7 +97,7 @@ int adf_cfg_get_ring_pairs_from_bundle(struct adf_cfg_bundle *bundle,
 		return -EFAULT;
 	}
 
-	strlcpy(bundle->sections[bundle->section_index],
+	strscpy(bundle->sections[bundle->section_index],
 		process_name, ADF_CFG_MAX_STR_LEN);
 	bundle->section_index++;
 

@@ -378,10 +378,12 @@ int adf_enable_aer(struct adf_accel_dev *accel_dev, struct pci_driver *adf)
 #else
 	adf->err_handler = &adf_err_handler;
 #endif
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 0, 0)
 	ret = pci_enable_pcie_error_reporting(pdev);
 	if (ret)
 		dev_warn(&pdev->dev,
 			 "QAT: Failed to enable AER, error code %d\n", ret);
+#endif
 
 	return 0;
 }
@@ -399,9 +401,11 @@ EXPORT_SYMBOL_GPL(adf_enable_aer);
  */
 void adf_disable_aer(struct adf_accel_dev *accel_dev)
 {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 0, 0)
 	struct pci_dev *pdev = accel_to_pci_dev(accel_dev);
 
 	pci_disable_pcie_error_reporting(pdev);
+#endif
 }
 EXPORT_SYMBOL_GPL(adf_disable_aer);
 

@@ -188,7 +188,7 @@ static int adf_cfg_get_user_section(struct adf_accel_dev *accel_dev,
 
 			dev_dbg(&GET_DEV(accel_dev),
 				"user section %s\n", section->name);
-			strlcpy(user_sec,
+			strscpy(user_sec,
 				section->name,
 				ADF_CFG_MAX_SECTION_LEN_IN_BYTES);
 			user_sec_list[*user_sec_num] = user_sec;
@@ -518,7 +518,7 @@ int adf_cfg_get_services_enabled(struct adf_accel_dev *accel_dev,
 	if (!val)
 		goto failed;
 
-	strlcpy(key, ADF_SERVICES_ENABLED, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+	strscpy(key, ADF_SERVICES_ENABLED, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 	if (adf_cfg_get_param_value(accel_dev, ADF_GENERAL_SEC, key, val))
 		goto failed;
 
@@ -542,7 +542,7 @@ int adf_cfg_get_services_enabled(struct adf_accel_dev *accel_dev,
 	}
 
 	ret = -EFAULT;
-	strlcpy(key, ADF_SERVICES_ENABLED, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+	strscpy(key, ADF_SERVICES_ENABLED, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 	if (adf_cfg_get_param_value(accel_dev, ADF_GENERAL_SEC, key, val))
 		goto failed;
 
@@ -640,7 +640,7 @@ int adf_cfg_get_num_of_inst(struct adf_accel_dev *accel_dev,
 		goto failed;
 
 	ret = -EFAULT;
-	strlcpy(key, ADF_NUM_CY, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+	strscpy(key, ADF_NUM_CY, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 	if (adf_cfg_get_param_value(accel_dev, ADF_KERNEL_SEC, key, val))
 		goto failed;
 
@@ -649,7 +649,7 @@ int adf_cfg_get_num_of_inst(struct adf_accel_dev *accel_dev,
 
 	(*num_cy_inst) += num_inst;
 
-	strlcpy(key, ADF_NUM_DC, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+	strscpy(key, ADF_NUM_DC, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 	if (adf_cfg_get_param_value(accel_dev, ADF_KERNEL_SEC, key, val))
 		goto failed;
 
@@ -662,14 +662,14 @@ int adf_cfg_get_num_of_inst(struct adf_accel_dev *accel_dev,
 		goto failed;
 
 	for (i = 0; i < user_sec_n; i++) {
-		strlcpy(key, ADF_NUM_CY, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+		strscpy(key, ADF_NUM_CY, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 		if (adf_cfg_get_param_value(accel_dev, user_sec_l[i], key, val))
 			goto failed;
 
 		if (kstrtoul(val, 0, &num_inst))
 			goto failed;
 
-		strlcpy(key, ADF_NUM_PROCESSES, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+		strscpy(key, ADF_NUM_PROCESSES, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 		if (adf_cfg_get_param_value(accel_dev, user_sec_l[i], key, val))
 			num_proc = 0;
 		else if (kstrtoul(val, 0, &num_proc))
@@ -677,7 +677,7 @@ int adf_cfg_get_num_of_inst(struct adf_accel_dev *accel_dev,
 
 		(*num_cy_inst) += num_inst * num_proc;
 
-		strlcpy(key, ADF_NUM_DC, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+		strscpy(key, ADF_NUM_DC, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 		if (adf_cfg_get_param_value(accel_dev, user_sec_l[i], key, val))
 			goto failed;
 
@@ -714,7 +714,7 @@ adf_cfg_get_intr_inst_in_kernel_section(struct adf_accel_dev *accel_dev,
 	unsigned long num_inst = 0;
 	unsigned long polling_mode = 0;
 
-	strlcpy(key, ADF_NUM_CY, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+	strscpy(key, ADF_NUM_CY, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 	if (adf_cfg_get_param_value(accel_dev, ADF_KERNEL_SEC, key, val))
 		goto failed;
 
@@ -737,7 +737,7 @@ adf_cfg_get_intr_inst_in_kernel_section(struct adf_accel_dev *accel_dev,
 		}
 	}
 
-	strlcpy(key, ADF_NUM_DC, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+	strscpy(key, ADF_NUM_DC, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 	if (adf_cfg_get_param_value(accel_dev, ADF_KERNEL_SEC, key, val))
 		goto failed;
 
@@ -778,7 +778,7 @@ adf_cfg_get_intr_inst_in_user_sections(struct adf_accel_dev *accel_dev,
 	unsigned long polling_mode = 0;
 
 	for (j = 0; j < user_sec_num; j++) {
-		strlcpy(key, ADF_NUM_CY, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+		strscpy(key, ADF_NUM_CY, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 		if (adf_cfg_get_param_value(accel_dev, user_sec_list[j],
 					    key, val))
 			goto failed;
@@ -802,7 +802,7 @@ adf_cfg_get_intr_inst_in_user_sections(struct adf_accel_dev *accel_dev,
 			}
 		}
 
-		strlcpy(key, ADF_NUM_DC, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
+		strscpy(key, ADF_NUM_DC, ADF_CFG_MAX_VAL_LEN_IN_BYTES);
 		if (adf_cfg_get_param_value(accel_dev,
 					    user_sec_list[j], key, val))
 			goto failed;

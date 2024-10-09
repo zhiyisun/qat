@@ -74,6 +74,7 @@
 
 #include "qae_mem_utils.h"
 
+extern int handle_other_ioctls(uint32_t cmd);
 int handle_other_ioctls(uint32_t cmd)
 {
     mm_err("Invalid IOCTL command specified(0x%x)\n", cmd);

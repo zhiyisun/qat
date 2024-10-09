@@ -171,17 +171,23 @@ static void adf_dev_mm_release(struct mmu_notifier *mn,
 	}
 }
 
-static void adf_dev_mm_invalidate_range(struct mmu_notifier *mn,
-					struct mm_struct *mm,
-					unsigned long start,
-					unsigned long end)
+static int adf_dev_mm_invalidate_range_start(struct mmu_notifier *mn,
+					const struct mmu_notifier_range *mm)
+{
+	/* Empty, required to be implemented */
+	return 0;
+}
+
+static void adf_dev_mm_invalidate_range_end(struct mmu_notifier *mn,
+					const struct mmu_notifier_range *mm)
 {
 	/* Empty, required to be implemented */
 }
 
 static const struct mmu_notifier_ops adf_dev_mmu_notifier_ops = {
 	.release = adf_dev_mm_release,
-	.invalidate_range = adf_dev_mm_invalidate_range,
+	.invalidate_range_start = adf_dev_mm_invalidate_range_start,
+	.invalidate_range_end = adf_dev_mm_invalidate_range_end,
 };
 
 #if (KERNEL_VERSION(5, 7, 0) <= LINUX_VERSION_CODE)

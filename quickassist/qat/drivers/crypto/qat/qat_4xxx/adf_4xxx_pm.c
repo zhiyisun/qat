@@ -18,7 +18,7 @@ static int get_cfg_pm_setting(struct adf_accel_dev *accel_dev, int *val_ptr,
 	char key[ADF_CFG_MAX_KEY_LEN_IN_BYTES];
 	char val[ADF_CFG_MAX_VAL_LEN_IN_BYTES];
 
-	strlcpy(key, key_str, sizeof(key));
+	strscpy(key, key_str, sizeof(key));
 	if (!adf_cfg_get_param_value(accel_dev, ADF_GENERAL_SEC, key, val))
 		if (kstrtoint(val, 0, val_ptr))
 			return -EFAULT;

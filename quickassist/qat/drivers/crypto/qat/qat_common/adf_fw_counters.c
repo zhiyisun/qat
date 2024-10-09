@@ -344,7 +344,7 @@ static int adf_fw_counters_add_key_value_param(struct adf_accel_dev *accel_dev,
 			 "%ld", tmp);
 	}
 
-	strlcpy(key_val->key, key, sizeof(key_val->key));
+	strscpy(key_val->key, key, sizeof(key_val->key));
 	down_write(&fw_counters_data->lock);
 	adf_fw_counters_keyval_add(key_val, section);
 	up_write(&fw_counters_data->lock);
@@ -377,7 +377,7 @@ static int adf_fw_counters_section_add(struct adf_accel_dev *accel_dev,
 	if (!sec)
 		return -ENOMEM;
 
-	strlcpy(sec->name, name, sizeof(sec->name));
+	strscpy(sec->name, name, sizeof(sec->name));
 	INIT_LIST_HEAD(&sec->param_head);
 
 	down_write(&fw_counters_data->lock);
