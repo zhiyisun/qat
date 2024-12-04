@@ -100,7 +100,7 @@ NumberDcInstances = 0
 ##############################################
 # User Process Instance Section
 ##############################################
-[SSL]
+[SHIM]
 NumberCyInstances = 0
 NumberDcInstances = 2
 NumProcesses = 1
